@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Use correct character set. -->
+        <meta charset="utf-8">
+        <!-- Tell IE to use the latest, best version. -->
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <!-- Make the app on mobile take up the full browser screen and disable user scaling. -->
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+        <title>规建管一体化平台</title>
+        <!-- Library. -->
+        <script src="https://cesiumjs.org/releases/1.55/Build/Cesium/Cesium.js"></script>
+        <link href="https://cesiumjs.org/releases/1.55/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+
+        <script src="https://d3js.org/d3.v3.min.js"></script>
+        <link rel="stylesheet" href="index.css" media="screen">
+        <link rel="stylesheet" href="/Component/report.css" media="screen">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+        
+        
+        
+    </head>
+
+    <body  onload="startTime()">
+
+        <!-- Header. -->
+        <header class="header">
+            <h1 class="logo"><a href="#">规建管一体化平台</a></h1>
+                <ul class="main-nav">
+                    <li><a id="timetxt"></a></li>
+                    <!-- 
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>-->
+                </ul>
+        </header> 
+
+        <!-- Icon buttons. -->
+        <div style="z-index: 2;position: absolute;">
+            <i class="material-icons" title="项目浏览器" onclick="showDash()">dashboard</i>
+            <i class="material-icons" title="规划" onclick="showDesign()">mode_edit</i>
+            <i class="material-icons" title="建造" onclick="showProg()">build</i>
+            <i class="material-icons" title="运维" onclick="showFacility()">group</i>
+            <!-- Dashboard. -->
+        <div class="dashboard" id="menu">
+          <div class="select">
+              <select  name="slct" id="slct" style="height: 35px;font-size: 16px;">
+                  <option value="" selected disabled hidden>浏览项目</option>
+                  <option id="option" value="project6">宗地1-CH43</option>
+                  <option id="option" value="project1">项目1-跨海大桥</option>
+                  <option id="option" value="project2">项目2-高楼公寓</option>
+                  <option id="option" value="project3">项目3-高楼公寓</option>
+                  <option id="option" value="project4">项目4-集合住宅</option>
+                  <option id="option" value="project5">项目5-高架陆桥</option>
+                  <option id="option" value="project7">运维1-高架陆桥</option>
+                  <option id="option" value="project8">运维2-高架陆桥</option>
+              </select>
+          </div>
+          <!-- <a class="btn btn--rounded" href="https://ipack-front-end.herokuapp.com/liteUI/models/bridge" id="projectLink"  target="_blank"style="top: 8px;">开启项目平台<i class="btn-icon fa fa-arrow-right"></i></a> -->
+          <br>
+          <br>
+          
+          <!-- <button type="button" class="cesium-button cesium-toolbar-button cesium-home-button" onclick="showProg()"><i class="fa fa-pie-chart"></i></button> -->
+      </div>
+        </div>
+        <!-- CesiumContainer. -->
+        <div id="cesiumContainer"></div>
+
+        
+
+        
+        <!-- ProjectPanel. -->
+        <!-- <div class="cesium-infoBox cesium-infoBox-visible" id="panel" data-bind="css: { &quot;cesium-infoBox-visible&quot; : showInfo, &quot;cesium-infoBox-bodyless&quot; : _bodyless }" style="top: 120px;visibility: visible; width: 400px; opacity: 0;">
+            <div class="cesium-infoBox-title" data-bind="text: titleText">工程进度</div>
+            <button type="button" class="cesium-infoBox-close" onclick="closeProg()">×</button>
+        </div> -->
+
+        <!-- LoadingIndicator. -->
+        <div id="loadingIndicator" class="cover">
+            <div id="loadingIcon" class="loadingIndicator"></div>
+        </div>
+
+        <!-- Rigjt click panel. -->
+        <div class="context" >
+            <div class="context_item"> 
+              <div class="inner_item" id="rp_select">
+                选取
+              </div> 
+            </div>
+            <div class="context_item" id="rp_focus_c" hidden> 
+              <div class="inner_item" id="rp_focus">
+                取消焦点
+              </div> 
+            </div>
+            <div class="context_item" hidden> 
+              <div class="inner_item" id="rp_hidden">
+                隐藏
+              </div> 
+            </div>
+            <div class="context_hr"></div>
+            <div class="context_item"> 
+              <a class="inner_item" id="rp_link" href="https://ipack-front-end.herokuapp.com/liteUI/models/bridge" target="_blank">
+                开启项目平台
+              </a> 
+            </div>
+          </div>
+
+        <!-- Our app code. -->
+        <script src="Source/search.js"></script>
+        <script src="Component/designPanel.js"></script>
+        <script src="Source/App.js"></script>
+        <script src="/Component/report.js"></script>
+
+    </body>
+</html>
