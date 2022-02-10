@@ -11,7 +11,7 @@
   "dependencies": {
     "compression": "^1.6.2",
     "express": "^4.15",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "request": "^2.79.0",
     "yargs": "^8.0.1"
   },
