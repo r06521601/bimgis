@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "compression": "^1.6.2",
-    "express": "^4.15",
+    "express": "^4.17",
     "node-sass": "^4.11.0",
     "request": "^2.79.0",
     "yargs": "^8.0.1"
